@@ -131,12 +131,11 @@ function handleMessage(sender_psid, received_message) {
         if(user.status == 1){
           var sympthom = []
           sympthom = firstMeet(sentence);
-          console.log(sympthom);
-          
           if(!sympthom){
             response = {
               "text": `ขออภัยค่ะ หมอไม่เข้าใจค่ะ`
             }
+            return  callSendAPI(sender_psid, response); 
           }
           else{
           user.sympthom = sympthom;
