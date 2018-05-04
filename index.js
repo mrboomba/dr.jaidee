@@ -129,8 +129,11 @@ function handleMessage(sender_psid, received_message) {
       else{
         var sentence = wordcut.cut(received_message.txt).split("|");
         if(user.status == 1){
-          var sympthom = firstMeet(sentence);
-          if(!sympthom.lenght){
+          var sympthom = []
+          sympthom = firstMeet(sentence);
+          console.log(sympthom);
+          
+          if(!sympthom){
             response = {
               "text": `ขออภัยค่ะ หมอไม่เข้าใจค่ะ`
             }
