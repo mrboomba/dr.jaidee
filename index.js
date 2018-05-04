@@ -149,7 +149,7 @@ function handleMessage(sender_psid, received_message) {
           console.log(user);
           User.findOneAndUpdate({'sender_psid':sender_psid},user,function(err,updateuser){
             for(var i =0 ;i<updateuser.symptom.length;i++){
-              if(updateuser.symptom.name == "ชัก"){
+              if(updateuser.symptom[i].name == "ชัก"){
                 User.findOneAndRemove({'sender_psid':sender_psid},function(err){
                   response = {
                     "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
