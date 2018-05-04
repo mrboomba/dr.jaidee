@@ -141,7 +141,11 @@ function handleMessage(sender_psid, received_message) {
             return  callSendAPI(sender_psid, response); 
           }
           else{
-          user.sympthom = sympthom;
+          
+          
+          for(var i =0 ; sympthom.lenght;i++){
+              user.sympthom.push({'name':sympthom[i]});
+          }
           user.save(function(err){
             _.each(user.sympthom,function(sym){
               console.log(sym);
