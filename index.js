@@ -147,7 +147,7 @@ function handleMessage(sender_psid, received_message) {
               user.sympthom.push({'name':sympthom[i]});
           }
           user.save(function(err,updateuser){
-            console.log(updateuser);
+            console.log(updateuser.sympthom);
             if(err){
               return 
             }
