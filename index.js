@@ -144,6 +144,8 @@ function handleMessage(sender_psid, received_message) {
           user.sympthom = sympthom;
           user.save(function(err){
             _.each(user.sympthom,function(sym){
+              console.log(sym);
+              
               if(sym.name == "ชัก"){
                 response = {
                   "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
