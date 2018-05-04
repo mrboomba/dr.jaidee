@@ -6,7 +6,29 @@ const
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
 const  request = require('request');
-// Creates the endpoint for our webhook 
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
+var User = require("./models/user");
+// Creates the endpoint for our webhook
+
+var db;
+
+
+mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://mrboomba:bcc32171@ds115350.mlab.com:15350/heroku_tkkbw8c3", function (err, client) {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
+
+  // Save database object from the callback for reuse.
+  db = client.db();
+  console.log("Database connection ready");
+
+  // Initialize the app.
+  app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+});
+
+
 app.post('/webhook', (req, res) => {  
  
     let body = req.body;
@@ -76,6 +98,15 @@ app.get('/webhook', (req, res) => {
 function handleMessage(sender_psid, received_message) {
 
     let response;
+    User.findOne({"sender_psid":sender_psid},function(err,user){
+      if(err){
+        console.log(err);
+      }
+      else{
+        console.log(user);
+        
+      }
+    })
 
     // Check if the message contains text
     if (received_message.text) {    
@@ -121,4 +152,3 @@ function callSendAPI(sender_psid, response) {
 }
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
