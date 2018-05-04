@@ -130,7 +130,7 @@ function handleMessage(sender_psid, received_message) {
         var sentence = wordcut.cut(received_message.txt).split("|");
         if(user.status == 1){
           var sympthom = firstMeet(sentence);
-          if(!sympthom.length){
+          if(!sympthom.lenght){
             response = {
               "text": `ขออภัยค่ะ หมอไม่เข้าใจค่ะ`
             }
@@ -163,7 +163,7 @@ function handleMessage(sender_psid, received_message) {
 function firstMeet(sentence){
   var hold;
   var not;
-  var sympthom;
+  var sympthom =[];
   _.each(sentence,function(word){
       if(word == "ไม่"){
         not = true;
