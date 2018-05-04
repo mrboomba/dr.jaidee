@@ -35,6 +35,9 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://mrboomba:bcc32171@ds11535
   app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 });
 
+app.get('/',(req,res)=>{
+  res.end("Kwam pen suan tua")
+})
 
 app.post('/webhook', (req, res) => {  
  
