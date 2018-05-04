@@ -19,7 +19,7 @@ var _ = require("underscore");
 
 wordcut.init();
 
-
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://mrboomba:bcc32171@ds115350.mlab.com:15350/heroku_tkkbw8c3", function (err, client) {
   if (err) {
@@ -141,18 +141,28 @@ function handleMessage(sender_psid, received_message) {
             return  callSendAPI(sender_psid, response); 
           }
           else{
-          
-          
-          for(var i =0 ; sympthom.lenght;i++){
-              user.symptom.push({'name':sympthom[i]});
+          for(var i =0 ; i<sympthom.length;i++){
+            var tmp = {};
+            tmp ={'name':sympthom[i],
+            'level':0,
+            'description':"",
+            'duration':""}
+              user.symptom.push(tmp);
           }
-          user.save(function(err,updateuser){
+          console.log(user);
+          
+          User.findOneAndUpdate({'sender_psid':sender_psid},user,function(err,updateuser){
+            if(err){
+              console.log(err);
+              
+            }
+            console.log(updateuser);
             console.log(updateuser.symptom);
             if(err){
               return 
             }
             _.each(updateuser.symptom,function(sym){
-              console.log(sym);
+              // console.log(sym);
               
               if(sym.name == "ชัก"){
                 response = {
@@ -218,7 +228,6 @@ function firstMeet(sentence,callback){
       if(word == "เหงื่อ"){
         hold = "เหงื่อ"
       }
-      console.log(sympthom);
       callback(sympthom)
   });
 }
@@ -252,5 +261,6 @@ function callSendAPI(sender_psid, response) {
     }
   }); 
 }
+handleMessage(2006056299466160,{'text':"ชักกระตุก"})
 
 // Sets server port and logs message on success
