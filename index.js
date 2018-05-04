@@ -13,6 +13,12 @@ var User = require("./models/user");
 // Creates the endpoint for our webhook
 
 var db;
+var wordcut = require("wordcut");
+var _ = require("underscore");
+
+
+wordcut.init();
+
 
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://mrboomba:bcc32171@ds115350.mlab.com:15350/heroku_tkkbw8c3", function (err, client) {
@@ -105,23 +111,94 @@ function handleMessage(sender_psid, received_message) {
         console.log(err);
       }
       else if(!user.length){
-        console.log(user);
-        
+        User.create({'sender_psid':sender_psid},function(err,newUser){
+          if(err){
+            console.log(err);
+            response = {
+              "text": `ขอโทษนะคะ เหมือนมีบางอย่างขัดข้องกรุณาลองใหม่ภายหลังค่ะ`
+            }
+          }
+          else{
+            response = {
+              "text": `สวัสดีค่ะวันนี้เป็นอะไรมาคะ`
+            }
+          }
+          return callSendAPI(sender_psid, response); 
+        });
       }
-      // Check if the message contains text
-    if (received_message.text) {    
-  
-      // Create the payload for a basic text message
-      response = {
-        "text": `You sent the message: "${received_message.text}". Now send me an image!`
+      else{
+        var sentence = wordcut.cut(received_message.txt).split("|");
+        if(user[0].status == 1){
+          var sympthom = firstMeet(sentence);
+          if(!sympthom.length){
+            response = {
+              "text": `ขออภัยค่ะ หมอไม่เข้าใจค่ะ`
+            }
+          }
+          else{
+          user[0].sympthom = sympthom;
+          _.each(user[0].sympthom,function(sym){
+            if(sym.name == "ชัก"){
+              response = {
+                "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
+                สามารถช่วยเหลือเบื่องต้นโดย ประคองผู้ป่วยให้นอนหรือนั่งลง ประคองศีรษะให้น้ำลายไหลออกทางมุมปากด้านใดด้านหนึ่ง และห้ามใส่อะไรลงไปในปากของผู้ที่ชักเด็ดขาด ควรสังเกตอาการและความผิดปกติของผู้ที่ชักตลอดเวลา เพื่อแจ้งแพทย์
+                เบอร์โทรสายด่วนรถพยาบาล 1669`
+              }
+              break;
+            }
+          })
+          }
+        }
+        else if(user[0].status == 2){
+        }
       }
-    }  
     
     // Sends the response message
     callSendAPI(sender_psid, response); 
     });
 
     
+}
+
+function firstMeet(sentence){
+  var hold;
+  var not;
+  var sympthom;
+  _.each(sentence,function(word){
+      if(word == "ไม่"){
+        not = true;
+      }
+      if(word == "ปวด"){
+        hold = "ปวด";
+      }
+      if(word == "ชัก"){
+        if(not){
+          not = false;
+        }
+        else sympthom.push("ชัก")
+      }
+      if(word == "ไข้"){
+
+      }
+      if(word == "หมด"){
+        hold = "หมด";
+      }
+      if(word == "ปาก"){
+        hold = "ปาก"
+      }
+      if(word == "เบี้ยว"){
+        if(hold == "ปาก"){
+          hold = ""
+          sympthom.push("ปากเบี้ยว")
+        }else{
+          
+        }
+      }
+      if(word == "เหงื่อ"){
+        hold = "เหงื่อ"
+      }
+      return sympthom;
+  });
 }
 
 // Handles messaging_postbacks events

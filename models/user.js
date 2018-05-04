@@ -3,11 +3,15 @@ var schema = new mongoose.Schema({
     sender_psid: {
       type: String
     },
-    symptom:{
-        type: String
-    },
+    symptom:[{
+      name:String,
+      level:Number,
+      description:String
+    }],
     status: {
-      type: Boolean
-    }
+      type: Number,
+      default: 1
+    },
+    
 });
   module.exports = mongoose.model('user', schema);
