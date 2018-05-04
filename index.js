@@ -130,8 +130,9 @@ function handleMessage(sender_psid, received_message) {
         var sentence = wordcut.cut(received_message.text).split("|");
         if(user.status == 1){
           var sympthom = []
-          sympthom = firstMeet(sentence);
-          console.log(sympthom);
+          sympthom = firstMeet(sentence,function(sympthom){
+
+            console.log(sympthom);
           
           if(!sympthom){
             response = {
@@ -152,6 +153,9 @@ function handleMessage(sender_psid, received_message) {
             }
           })
           }
+
+          });
+          
         }
         else if(user.status == 2){
         }
@@ -164,7 +168,7 @@ function handleMessage(sender_psid, received_message) {
     
 }
 
-function firstMeet(sentence){
+function firstMeet(sentence,callback){
   var hold;
   var not;
   var sympthom =[];
@@ -202,7 +206,7 @@ function firstMeet(sentence){
         hold = "เหงื่อ"
       }
       console.log(sympthom);
-      return sympthom;
+      callback(sympthom)
   });
 }
 
