@@ -277,8 +277,9 @@ function firstMeet(sentence,callback){
           
         }
       }
-      callback(sympthom)
+      
   });
+  callback(sympthom)
 }
 
 // Handles messaging_postbacks events
