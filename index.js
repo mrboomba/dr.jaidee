@@ -147,7 +147,7 @@ function handleMessage(sender_psid, received_message) {
               user.symptom.push(tmp);
           }
           console.log(user);
-          User.update({'sender_psid':sender_psid},{$set:{'symptom':user.symptom}},function(err,updateuser){
+          User.update({'sender_psid':sender_psid},user,function(err,updateuser){
             for(var i =0 ;i<updateuser.symptom.length;i++){
               if(updateuser.symptom[i].name == "ชัก"){
                 User.findOneAndRemove(updateuser,function(err){
