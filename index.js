@@ -131,7 +131,7 @@ function handleMessage(sender_psid, received_message) {
         if(user.status == 1){
           var sympthom = []
           sympthom = firstMeet(sentence,function(sympthom){
-          if(sympthom.length == 0){
+          if(sympthom.length == 0&&user.symptom.length==0){
             response = {
               "text": `ขออภัยค่ะ หมอไม่เข้าใจค่ะ`
             }
@@ -151,6 +151,10 @@ function handleMessage(sender_psid, received_message) {
             for(var i =0 ;i<updateuser.symptom.length;i++){
               if(updateuser.symptom[i].name == "ชัก"){
                 User.findOneAndRemove({'sender_psid':sender_psid},function(err){
+                  if(err){
+                    console.log(err);
+                    
+                  }
                   response = {
                     "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
                     สามารถช่วยเหลือเบื่องต้นโดย ประคองผู้ป่วยให้นอนหรือนั่งลง ประคองศีรษะให้น้ำลายไหลออกทางมุมปากด้านใดด้านหนึ่ง และห้ามใส่อะไรลงไปในปากของผู้ที่ชักเด็ดขาด ควรสังเกตอาการและความผิดปกติของผู้ที่ชักตลอดเวลา เพื่อแจ้งแพทย์
