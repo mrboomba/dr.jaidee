@@ -150,7 +150,6 @@ function handleMessage(sender_psid, received_message) {
               user.symptom.push(tmp);
           }
           console.log(user);
-          
           User.findOneAndUpdate({'sender_psid':sender_psid},user,function(err,updateuser){
             if(err){
               console.log(err);
@@ -165,12 +164,15 @@ function handleMessage(sender_psid, received_message) {
               // console.log(sym);
               
               if(sym.name == "ชัก"){
-                response = {
-                  "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
-                  สามารถช่วยเหลือเบื่องต้นโดย ประคองผู้ป่วยให้นอนหรือนั่งลง ประคองศีรษะให้น้ำลายไหลออกทางมุมปากด้านใดด้านหนึ่ง และห้ามใส่อะไรลงไปในปากของผู้ที่ชักเด็ดขาด ควรสังเกตอาการและความผิดปกติของผู้ที่ชักตลอดเวลา เพื่อแจ้งแพทย์
-                  เบอร์โทรสายด่วนรถพยาบาล 1669`
-                }
-                return  callSendAPI(sender_psid, response); 
+                User.findOneAndRemove({'sender_psid':sender_psid},function(err){
+                  response = {
+                    "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
+                    สามารถช่วยเหลือเบื่องต้นโดย ประคองผู้ป่วยให้นอนหรือนั่งลง ประคองศีรษะให้น้ำลายไหลออกทางมุมปากด้านใดด้านหนึ่ง และห้ามใส่อะไรลงไปในปากของผู้ที่ชักเด็ดขาด ควรสังเกตอาการและความผิดปกติของผู้ที่ชักตลอดเวลา เพื่อแจ้งแพทย์
+                    เบอร์โทรสายด่วนรถพยาบาล 1669`
+                  }
+  
+                  return  callSendAPI(sender_psid, response); 
+                })
               }
             });
           });
@@ -261,6 +263,6 @@ function callSendAPI(sender_psid, response) {
     }
   }); 
 }
-handleMessage(2006056299466160,{'text':"ชักกระตุก"})
+
 
 // Sets server port and logs message on success
