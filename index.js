@@ -150,7 +150,7 @@ function handleMessage(sender_psid, received_message) {
           User.findOneAndUpdate({'sender_psid':sender_psid},user,function(err,updateuser){
             for(var i =0 ;i<updateuser.symptom.length;i++){
               if(updateuser.symptom[i].name == "ชัก"){
-                User.findOneAndRemove({'sender_psid':sender_psid},function(err){
+                User.findOneAndRemove(updateuser,function(err){
                   if(err){
                     console.log(err);
                     
