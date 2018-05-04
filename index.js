@@ -201,6 +201,7 @@ function firstMeet(sentence){
       if(word == "เหงื่อ"){
         hold = "เหงื่อ"
       }
+      console.log(sympthom);
       return sympthom;
   });
 }
