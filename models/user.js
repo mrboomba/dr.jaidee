@@ -10,4 +10,4 @@ var schema = new mongoose.Schema({
       type: Boolean
     }
 });
-  module.exports = mongoose.model('student', schema);
+  module.exports = mongoose.model('user', schema);
