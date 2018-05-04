@@ -127,7 +127,7 @@ function handleMessage(sender_psid, received_message) {
         });
       }
       else{
-        var sentence = wordcut.cut(received_message.txt).split("|");
+        var sentence = wordcut.cut(received_message.text).split("|");
         if(user.status == 1){
           var sympthom = []
           sympthom = firstMeet(sentence);
