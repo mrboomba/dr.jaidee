@@ -150,21 +150,22 @@ function handleMessage(sender_psid, received_message) {
           User.findOneAndUpdate({'sender_psid':sender_psid},user,function(err,updateuser){
             for(var i =0 ;i<updateuser.symptom.length;i++){
               if(updateuser.symptom[i].name == "ชัก"){
+                User.findOneAndRemove({'sender_psid':sender_psid},function(err){
+                  if(err){
+                    console.log(err);
+                    
+                  }
+                  
+                }) 
                 response = {
                   "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
                   สามารถช่วยเหลือเบื่องต้นโดย ประคองผู้ป่วยให้นอนหรือนั่งลง ประคองศีรษะให้น้ำลายไหลออกทางมุมปากด้านใดด้านหนึ่ง และห้ามใส่อะไรลงไปในปากของผู้ที่ชักเด็ดขาด ควรสังเกตอาการและความผิดปกติของผู้ที่ชักตลอดเวลา เพื่อแจ้งแพทย์
                   เบอร์โทรสายด่วนรถพยาบาล 1669`
                 }
-
-                return  callSendAPI(sender_psid, response); 
-              }
-              User.findOneAndRemove(updateuser,function(err){
-                if(err){
-                  console.log(err);
-                  
-                }
+                return callSendAPI(sender_psid, response);
                 
-              })
+              }
+              
             }
           
           });
