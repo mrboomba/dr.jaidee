@@ -7,6 +7,7 @@ const
   app = express().use(bodyParser.json()); // creates express http server
 const  request = require('request');
 var mongodb = require("mongodb");
+var mongoose = require('mongoose');
 var ObjectID = mongodb.ObjectID;
 var User = require("./models/user");
 // Creates the endpoint for our webhook
@@ -14,14 +15,14 @@ var User = require("./models/user");
 var db;
 
 
-mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://mrboomba:bcc32171@ds115350.mlab.com:15350/heroku_tkkbw8c3", function (err, client) {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://mrboomba:bcc32171@ds115350.mlab.com:15350/heroku_tkkbw8c3", function (err, client) {
   if (err) {
     console.log(err);
     process.exit(1);
   }
 
   // Save database object from the callback for reuse.
-  db = client.db();
+  // db = client.db();
   console.log("Database connection ready");
 
   // Initialize the app.
@@ -97,7 +98,6 @@ app.get('/webhook', (req, res) => {
 function handleMessage(sender_psid, received_message) {
 
     let response;
-    console.log(User);
     
     User.find({'sender_psid':sender_psid},function(err,user){
       console.log("Somethings");
