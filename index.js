@@ -131,7 +131,7 @@ function handleMessage(sender_psid, received_message) {
         if(user.status == 1){
           var sympthom = []
           sympthom = firstMeet(sentence,function(sympthom){
-          if(!sympthom){
+          if(!sympthom.length){
             response = {
               "text": `ขออภัยค่ะ หมอไม่เข้าใจค่ะ`
             }
@@ -148,13 +148,6 @@ function handleMessage(sender_psid, received_message) {
           }
           console.log(user);
           User.findOneAndUpdate({'sender_psid':sender_psid},user,function(err,updateuser){
-            if(err){
-              console.log(err);
-              
-            }
-            if(err){
-              return 
-            }
             _.each(updateuser.symptom,function(sym){
                console.log(sym.name);
               
