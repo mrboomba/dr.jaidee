@@ -144,14 +144,14 @@ function handleMessage(sender_psid, received_message) {
           
           
           for(var i =0 ; sympthom.lenght;i++){
-              user.sympthom.push({'name':sympthom[i]});
+              user.symptom.push({'name':sympthom[i]});
           }
           user.save(function(err,updateuser){
             console.log(updateuser.sympthom);
             if(err){
               return 
             }
-            _.each(updateuser.sympthom,function(sym){
+            _.each(updateuser.symptom,function(sym){
               console.log(sym);
               
               if(sym.name == "ชัก"){
