@@ -161,7 +161,7 @@ function handleMessage(sender_psid, received_message) {
               return 
             }
             _.each(updateuser.symptom,function(sym){
-              // console.log(sym);
+               console.log(sym.name);
               
               if(sym.name == "ชัก"){
                 User.findOneAndRemove({'sender_psid':sender_psid},function(err){
@@ -204,14 +204,76 @@ function firstMeet(sentence,callback){
       if(word == "ปวด"){
         hold = "ปวด";
       }
+      if(word == "สุนัข"||word == "หมา"){
+        hold = "หมา";
+      }
+      if(word == "กัด"){
+        if(hold == "หมา"){
+          sympthom.push("หมากัด")
+        }
+      }
+      if(word == "ท้อง"){
+        if(hold = "ปวด"){
+          hold = ""
+          sympthom.push("ปวดท้อง")
+        }
+      }
+      if(word == "หัว"||word == "ศรีษะ"){
+        if(hold = "ปวด"){
+          hold = ""
+          sympthom.push("ปวดหัว")
+        }
+        if(hold = "เวีบน"){
+          hold = ""
+          sympthom.push("เวียนหัว")
+        }
+      }
+      if(word == "ตัว"){
+        if(hold == "ปวด"){
+          hold = ""
+          sympthom.push("เวียนหัว")
+        }
+      }
+      if(word == "คลื่น"){
+        hold = "คลื่น";
+      }
+      if(word == "ไส้"){
+        if(hold = "คลื่น"){
+          hold = ""
+          sympthom.push("คลื่นไส้")
+        }
+      }
+
+      if(word == "อา"){
+        hold = "อา";
+      }
+      if(word == "เจียน"){
+        if(hold = "อา"){
+          hold = ""
+          sympthom.push("อ้วก")
+        }
+      }
+      if(word=="อ้วก"){
+        sympthom.push("อ้วก")
+      }
+
       if(word == "ชัก"){
         if(not){
           not = false;
         }
         else sympthom.push("ชัก")
       }
+      if(word == "ตัว"){
+        hold = "ตัว";
+      }
+      if(word == "ร้อน"){
+        if(hold = "ร้อน"){
+          hold = ""
+          sympthom.push("ไข้")
+        }
+      }
       if(word == "ไข้"){
-
+        sympthom.push("ไข้")
       }
       if(word == "หมด"){
         hold = "หมด";
@@ -226,9 +288,6 @@ function firstMeet(sentence,callback){
         }else{
           
         }
-      }
-      if(word == "เหงื่อ"){
-        hold = "เหงื่อ"
       }
       callback(sympthom)
   });
