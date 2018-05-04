@@ -131,7 +131,7 @@ function handleMessage(sender_psid, received_message) {
         if(user.status == 1){
           var sympthom = []
           sympthom = firstMeet(sentence,function(sympthom){
-          if(!sympthom.length){
+          if(sympthom.length == 0){
             response = {
               "text": `ขออภัยค่ะ หมอไม่เข้าใจค่ะ`
             }
