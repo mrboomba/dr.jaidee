@@ -105,12 +105,12 @@ function handleMessage(sender_psid, received_message) {
 
     let response;
     
-    User.find({'sender_psid':sender_psid},function(err,user){
+    User.findOne({'sender_psid':sender_psid},function(err,user){
       console.log("Somethings");
       if(err){
         console.log(err);
       }
-      else if(!user.length){
+      else if(!user){
         User.create({'sender_psid':sender_psid},function(err,newUser){
           if(err){
             console.log(err);
@@ -128,7 +128,7 @@ function handleMessage(sender_psid, received_message) {
       }
       else{
         var sentence = wordcut.cut(received_message.txt).split("|");
-        if(user[0].status == 1){
+        if(user.status == 1){
           var sympthom = firstMeet(sentence);
           if(!sympthom.length){
             response = {
@@ -136,8 +136,8 @@ function handleMessage(sender_psid, received_message) {
             }
           }
           else{
-          user[0].sympthom = sympthom;
-          _.each(user[0].sympthom,function(sym){
+          user.sympthom = sympthom;
+          _.each(user.sympthom,function(sym){
             if(sym.name == "ชัก"){
               response = {
                 "text": `โดยปกติแล้วผู้ที่มีอาการชัก จะสามารถหยุดได้เองภายใน 1-2 นาที แต่หากมีอาการเกินกว่า 5 นาที หรือเมื่อหยุดชักแล้วหมดสติ ควรนำผู้ป่วยส่งให้ถึงมือแพทย์อย่างเร็วที่สุด 
@@ -149,7 +149,7 @@ function handleMessage(sender_psid, received_message) {
           })
           }
         }
-        else if(user[0].status == 2){
+        else if(user.status == 2){
         }
       }
     
