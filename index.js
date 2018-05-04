@@ -97,11 +97,12 @@ app.get('/webhook', (req, res) => {
 function handleMessage(sender_psid, received_message) {
 
     let response;
-    User.findOne({"sender_psid":sender_psid},function(err,user){
+    User.find({"sender_psid":sender_psid},function(err,user){
+      console.log("Somethings");
       if(err){
         console.log(err);
       }
-      else{
+      else if(!user.length){
         console.log(user);
         
       }
@@ -116,7 +117,7 @@ function handleMessage(sender_psid, received_message) {
     
     // Sends the response message
     callSendAPI(sender_psid, response); 
-    })
+    });
 
     
 }
