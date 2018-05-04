@@ -146,8 +146,11 @@ function handleMessage(sender_psid, received_message) {
           for(var i =0 ; sympthom.lenght;i++){
               user.sympthom.push({'name':sympthom[i]});
           }
-          user.save(function(err){
-            _.each(user.sympthom,function(sym){
+          user.save(function(err,updateuser){
+            if(err){
+              return 
+            }
+            _.each(updateuser.sympthom,function(sym){
               console.log(sym);
               
               if(sym.name == "ชัก"){
