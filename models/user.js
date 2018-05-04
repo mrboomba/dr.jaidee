@@ -6,7 +6,8 @@ var schema = new mongoose.Schema({
     symptom:[{
       name:String,
       level:Number,
-      description:String
+      description:String,
+      duration:String
     }],
     status: {
       type: Number,
