@@ -13,6 +13,7 @@ var schema = new mongoose.Schema({
       type: Number,
       default: 1
     },
+    follow:String
     
 });
   module.exports = mongoose.model('user', schema);
