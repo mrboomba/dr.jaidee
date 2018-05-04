@@ -144,7 +144,7 @@ function handleMessage(sender_psid, received_message) {
                 สามารถช่วยเหลือเบื่องต้นโดย ประคองผู้ป่วยให้นอนหรือนั่งลง ประคองศีรษะให้น้ำลายไหลออกทางมุมปากด้านใดด้านหนึ่ง และห้ามใส่อะไรลงไปในปากของผู้ที่ชักเด็ดขาด ควรสังเกตอาการและความผิดปกติของผู้ที่ชักตลอดเวลา เพื่อแจ้งแพทย์
                 เบอร์โทรสายด่วนรถพยาบาล 1669`
               }
-              break;
+              return  callSendAPI(sender_psid, response); 
             }
           })
           }
@@ -154,7 +154,7 @@ function handleMessage(sender_psid, received_message) {
       }
     
     // Sends the response message
-    callSendAPI(sender_psid, response); 
+   
     });
 
     
